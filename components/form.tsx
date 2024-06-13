@@ -82,13 +82,13 @@ export function Form({ onChange, onSubmit, value }: Props) {
           }}
           animate={{
             opacity: focused ? 1 : 0,
-            scale: focused ? 1 : 0.9,
+            scale: focused ? 1 : 0.4,
           }}
           transition={{
             duration: 0.4,
             ease: 'easeInOut',
           }}
-          className="absolute top-2 blur-md bg-black w-full h-10 animate-pulse pointer-events-none -z-10 transition-all duration-500 ease-out"
+          className="absolute top-2 blur-md bg-gray-800 w-full h-10 animate-pulse pointer-events-none -z-10 transition-all duration-500 ease-out rounded-full"
         />
 
         <input
