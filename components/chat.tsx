@@ -6,7 +6,8 @@ import { ProductSkeleton } from './product-skeleton'
 import { Product } from './product'
 import { ProductDTO } from '@/lib/client/utils'
 import { Form } from './form'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
 
 export default function Chat() {
   const messagesChat = useRef<HTMLDivElement | null>(null)
@@ -33,10 +34,23 @@ export default function Chat() {
         <div key={m.id}>
           {m.role === 'user' ? (
             <div className="text-2xl text-gray-600 font-semibold">
-              {m.content}
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                {m.content}
+              </motion.span>
             </div>
           ) : (
-            m.content
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.75 }}
+              className="mb-2 text-neutral-500"
+            >
+              {m.content}
+            </motion.span>
           )}
 
           {m.toolInvocations?.map((toolInvocation: ToolInvocation) => {
@@ -57,11 +71,14 @@ export default function Chat() {
                   ))}
               </div>
             ) : (
-              <div key={toolCallId} className="flex flex-row w-full justify-between gap-5">
+              <div
+                key={toolCallId}
+                className="flex flex-row w-full justify-between gap-5"
+              >
                 {Array(3)
                   .fill(0)
                   .map((_, i) => (
-                    <ProductSkeleton key={i} className='w-1/3' />
+                    <ProductSkeleton key={i} className="w-1/3" />
                   ))}
               </div>
             )
