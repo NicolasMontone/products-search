@@ -23,7 +23,11 @@ export async function POST(req: Request) {
       If you have some information that you can use to call the tool, you should call it. If you don't have any information, you should ask the user for more information.
       
       The response should not contain specials characters like **, etc, just plain text.
-      After talking about the product (don't add the information like image, etc since it will be shown to the user), add the id like this: [[id]] with the id of the product.`,
+      
+      The response should have the following format:
+      
+      [[productId]](ProductName): Why you think this product is the best for the user
+      `,
     toolChoice: 'auto',
     tools: {
       findProducts: tool({

@@ -6,8 +6,35 @@ import { ProductSkeleton } from './product-skeleton'
 import { Product } from './product'
 import { ProductDTO } from '@/lib/client/utils'
 import { Form } from './form'
-import { useCallback, useRef } from 'react'
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useDebounce } from '@uidotdev/usehooks'
+
+function replaceIdsWithLinks(content: string) {
+  const regex = /\[(\w+)\]\(([^)]+)\)/g
+  return content.replace(regex, '<a href="$1">$2</a>')
+}
+
+// TODO
+function AssistantChat({ content }: { content: string }) {
+  const [contentRendered, setContentRendered] = useState<ReactNode | null>(null)
+  const debouncedContent = useDebounce(content, 500)
+
+  useEffect(() => {
+    const modifiedContent = replaceIdsWithLinks(debouncedContent)
+    setContentRendered(modifiedContent)
+  }, [debouncedContent])
+
+  return (
+    <motion.span
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.75 }}
+      className="mb-2 text-neutral-500"
+      dangerouslySetInnerHTML={{ __html: content ?? '' }}
+    ></motion.span>
+  )
+}
 
 export default function Chat() {
   const messagesChat = useRef<HTMLDivElement | null>(null)
@@ -43,14 +70,7 @@ export default function Chat() {
               </motion.span>
             </div>
           ) : (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.75 }}
-              className="mb-2 text-neutral-500"
-            >
-              {m.content}
-            </motion.span>
+            <AssistantChat content={m.content} />
           )}
 
           {m.toolInvocations?.map((toolInvocation: ToolInvocation) => {

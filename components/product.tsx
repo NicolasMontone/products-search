@@ -22,7 +22,7 @@ export function Product({
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn('flex flex-col w-64 shadow-md p-3 rounded-xl', className)}
+      className={cn('flex flex-col w-64 shadow-md p-3 rounded-xl bg-white', className)}
     >
       <Image
         src={image}
@@ -31,9 +31,9 @@ export function Product({
         width={244}
         height={112}
       />
-      <h3 className="text-xl text-gray-700 line-clamp-3 mb-4">{title}</h3>
+      <p className="text-gray-700 font-semibold mb-2">{priceToArs(price)}</p>
+      <h3 className="text-xl text-gray-700 line-clamp-3 mb-2">{title}</h3>
       <p className="text-gray-500 text-sm line-clamp-4 mb-2">{description}</p>
-      <p className="text-gray-700 font-semibold">{priceToArs(price)}</p>
     </a>
   )
 }

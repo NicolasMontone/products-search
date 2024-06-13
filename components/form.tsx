@@ -17,19 +17,19 @@ export function Form({ onChange, onSubmit, value }: Props) {
   const [focused, setFocused] = useState(false)
   const [conversationStarted, setConversationStarted] = useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const inputContainerRef = useRef<HTMLDivElement | null>(null)
-  const formRef = useRef<HTMLFormElement | null>(null)
 
   const submit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
+      if (!value) return
+
       if (!conversationStarted) {
         setConversationStarted(true)
       }
       onSubmit(e)
       inputRef.current?.focus()
     },
-    [onSubmit, conversationStarted]
+    [value, conversationStarted, onSubmit]
   )
 
   const searchs = [
@@ -41,7 +41,6 @@ export function Form({ onChange, onSubmit, value }: Props) {
 
   return (
     <motion.form
-      ref={formRef}
       onSubmit={submit}
       initial={{
         top: '50%',
@@ -66,8 +65,7 @@ export function Form({ onChange, onSubmit, value }: Props) {
           duration: 1,
           ease: 'easeInOut',
         }}
-        className="relative"
-        ref={inputContainerRef}
+        className="relative min-w-72"
       >
         {value || conversationStarted ? null : (
           <div className="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none placeholder-opacity-0	">
@@ -88,7 +86,7 @@ export function Form({ onChange, onSubmit, value }: Props) {
             duration: 0.4,
             ease: 'easeInOut',
           }}
-          className="absolute top-2 blur-md bg-gray-800 w-full h-10 animate-pulse pointer-events-none -z-10 transition-all duration-500 ease-out rounded-full"
+          className="absolute top-2 blur-md bg-[#47a8ff] w-full h-10 animate-pulse pointer-events-none -z-10 transition-all duration-500 ease-out rounded-full"
         />
 
         <input
