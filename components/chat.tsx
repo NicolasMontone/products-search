@@ -6,7 +6,7 @@ import { ProductSkeleton } from './product-skeleton'
 import { Product } from './product'
 import { ProductDTO } from '@/lib/client/utils'
 import { Form } from './form'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef } from 'react'
 import { motion } from 'framer-motion'
 
 export default function Chat() {
@@ -28,7 +28,7 @@ export default function Chat() {
   return (
     <div
       ref={messagesChat}
-      className="h-screen overflow-auto min-w-[70%] w-[1000px] max-w-[840px] relative py-24"
+      className="h-screen overflow-auto min-w-[70%] w-[1000px] max-w-[840px] relative p-24"
     >
       {messages?.map((m: Message) => (
         <div key={m.id}>
