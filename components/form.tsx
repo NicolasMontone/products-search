@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useWindowSize } from '@uidotdev/usehooks'
 import { FlipWords } from './flipping-words'
+import { motion } from 'framer-motion'
 
 type Props = {
   value: string
@@ -34,6 +35,7 @@ function useAnimation(
 }
 
 export function Form({ onChange, onSubmit, value }: Props) {
+  const [focused, setFocused] = useState(false)
   const [conversationStarted, setConversationStarted] = useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null)
   const inputContainerRef = useRef<HTMLDivElement | null>(null)
@@ -72,10 +74,29 @@ export function Form({ onChange, onSubmit, value }: Props) {
             <FlipWords words={searchs} />
           </div>
         )}
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            scale: 0.8,
+          }}
+          animate={{
+            opacity: focused ? 1 : 0,
+            scale: focused ? 1 : 0.9,
+          }}
+          transition={{
+            duration: 0.4,
+            ease: 'easeInOut',
+          }}
+          className="absolute top-2 blur-md bg-black w-full h-10 animate-pulse pointer-events-none -z-10 transition-all duration-500 ease-out"
+        />
+
         <input
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
           ref={inputRef}
           onChange={onChange}
-          placeholder=""
+          placeholder={conversationStarted ? 'Search for something...' : ''}
           value={value}
           className="w-full p-3 outline-black border-black border-solid border-2 rounded-full"
         />
