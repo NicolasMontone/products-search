@@ -22,7 +22,7 @@ export function Product({
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn('flex flex-col w-64 shadow-md p-3 rounded-xl bg-white', className)}
+      className={cn('flex flex-col w-full shadow-md p-3 rounded-xl bg-white', className)}
     >
       <Image
         src={image}

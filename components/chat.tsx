@@ -52,7 +52,7 @@ export default function Chat() {
   return (
     <div
       ref={messagesChat}
-      className="h-screen overflow-auto min-w-[70%] w-[1000px] max-w-[840px] relative p-24"
+      className="h-screen overflow-auto sm:min-w-[70%] sm:w-[1000px] sm:max-w-[840px] relative sm:p-24 p-12 min-w-[90%]"
     >
       {messages?.map((m: Message) => (
         <div key={m.id}>
@@ -76,7 +76,7 @@ export default function Chat() {
             return 'result' in toolInvocation ? (
               <div
                 key={toolCallId}
-                className="flex flex-row w-full justify-between gap-5"
+                className="flex sm:flex-row flex-col w-full justify-between items-center gap-5 flex-wrap sm:flex-nowrap"
               >
                 {toolInvocation.toolName === 'findProducts' &&
                   (
@@ -87,19 +87,19 @@ export default function Chat() {
                     <Product
                       key={`${product._id}_${toolCallId}`}
                       {...product}
-                      className="w-1/3"
+                      className="sm:w-1/3"
                     />
                   ))}
               </div>
             ) : (
               <div
                 key={toolCallId}
-                className="flex flex-row w-full justify-between gap-5"
+                className="flex sm:flex-row flex-col w-full justify-between items-center gap-5 flex-wrap sm:flex-nowrap"
               >
                 {Array(3)
                   .fill(0)
                   .map((_, i) => (
-                    <ProductSkeleton key={i} className="w-1/3" />
+                    <ProductSkeleton key={i} className="sm:w-1/3" />
                   ))}
               </div>
             )
