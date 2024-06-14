@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "seed-meli": "tsx scripts/seedMeli.ts",
+    "seed-meli": "dotenv -e .env.local -- tsx scripts/seedWithMeliOffers.ts",
     "lint": "next lint"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "ai": "^3.1.32",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.10",
+    "lodash.chunk": "^4.2.0",
     "mini-svg-data-uri": "^1.4.4",
     "mongodb": "^6.7.0",
     "next": "14.2.4",
@@ -25,9 +26,11 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/lodash.chunk": "^4.2.9",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "dotenv-cli": "^7.4.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "postcss": "^8",

@@ -33,10 +33,10 @@ export function Form({ onChange, onSubmit, value }: Props) {
   )
 
   const searchs = [
-    'Gift for my son’s 10th birthday',
     'Present for my daughter who loves art',
     'Furniture for my new office',
     'Sport supplements',
+    'Comida para la Sirvana house',
   ]
 
   return (
