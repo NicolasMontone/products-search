@@ -6,12 +6,15 @@ import { ProductSkeleton } from './product-skeleton'
 import { Product } from './product'
 import { ProductDTO } from '@/lib/client/utils'
 import { Form } from './form'
-import { useCallback, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { AssistantText } from './assistant-chat'
 
 export default function Chat() {
   const messagesChat = useRef<HTMLDivElement | null>(null)
+  const [productsList, setProductsList] = useState<Record<string, ProductDTO>>(
+    {}
+  )
 
   const scrollMessagesToBottom = useCallback(() => {
     if (!messagesChat.current) return
@@ -26,6 +29,26 @@ export default function Chat() {
     },
   })
 
+  useEffect(() => {
+    const productsToSet: Record<string, ProductDTO> = {}
+
+    for (const message of messages) {
+      if (message.toolInvocations) {
+        for (const toolInvocation of message.toolInvocations) {
+          if ('result' in toolInvocation) {
+            for (const product of (
+              toolInvocation.result as { products: ProductDTO[] }
+            ).products) {
+              productsToSet[product._id] = product
+            }
+          }
+        }
+      }
+    }
+
+    setProductsList((prev) => ({ ...prev, ...productsToSet }))
+  }, [messages])
+
   return (
     <div
       ref={messagesChat}
@@ -34,7 +57,7 @@ export default function Chat() {
       {messages?.map((m: Message) => (
         <div key={m.id}>
           {m.role === 'user' ? (
-            <div className="text-2xl text-gray-600 font-semibold">
+            <div className="text-3xl text-gray-600 font-semibold">
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -44,7 +67,7 @@ export default function Chat() {
               </motion.span>
             </div>
           ) : (
-            <AssistantText content={m.content} />
+            <AssistantText content={m.content} products={productsList} />
           )}
 
           {m.toolInvocations?.map((toolInvocation: ToolInvocation) => {
@@ -61,7 +84,11 @@ export default function Chat() {
                       products: ProductDTO[]
                     }
                   ).products.map((product) => (
-                    <Product key={product._id} {...product} className="w-1/3" />
+                    <Product
+                      key={`${product._id}_${toolCallId}`}
+                      {...product}
+                      className="w-1/3"
+                    />
                   ))}
               </div>
             ) : (

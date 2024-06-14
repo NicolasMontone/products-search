@@ -1,37 +1,60 @@
 import { motion } from 'framer-motion'
 import { useState, ReactNode, useCallback, useEffect } from 'react'
+import { ProductDTO } from '../lib/client/utils'
+import { LinkPreview } from './link-preview'
 
-export function AssistantText({ content }: { content: string }) {
+type Props = {
+  content: string
+  products: Record<string, ProductDTO>
+}
+
+export function AssistantText({ content, products }: Props) {
   const [contentRendered, setContentRendered] = useState<ReactNode[]>([])
 
-  const converToRenderText = useCallback((text: string) => {
-    const textSplitted = text.split('^^')
-    const elementsToRender = []
-    for (let i = 0; i < textSplitted.length; i++) {
-      const splitPart = textSplitted[i]
+  const convertToRenderText = useCallback(
+    (text: string) => {
+      const textSplitted = text.split('^^')
+      const elementsToRender = []
+      for (let i = 0; i < textSplitted.length; i++) {
+        const splitPart = textSplitted[i]
 
-      if (splitPart.startsWith('_')) {
-        if (i === textSplitted.length - 1) {
-          continue
+        if (splitPart.startsWith('_')) {
+          if (i === textSplitted.length - 1) {
+            continue
+          }
+
+          const [id, title] = splitPart.replace('_', '').split(':')
+          const product = products[id]
+
+          elementsToRender.push(
+            product ? (
+              <LinkPreview
+                id={id}
+                key={`${product._id}_${i}`}
+                src={product.image}
+                url={product.url}
+                height={100}
+                className="text-blue-800 font-semibold"
+              >
+                {title}
+              </LinkPreview>
+            ) : (
+              title
+            )
+          )
+        } else {
+          elementsToRender.push(splitPart)
         }
-
-        const [id, title] = splitPart.replace('_', '').split(':')
-        elementsToRender.push(
-          <b>
-            {id}: {title}
-          </b>
-        )
-      } else {
-        elementsToRender.push(splitPart)
       }
-    }
 
-    setContentRendered(elementsToRender)
-  }, [])
+      setContentRendered(elementsToRender)
+    },
+    [products]
+  )
 
   useEffect(() => {
-    converToRenderText(content)
-  }, [content, converToRenderText])
+    convertToRenderText(content)
+  }, [content, convertToRenderText])
 
   return (
     <motion.span
@@ -40,7 +63,9 @@ export function AssistantText({ content }: { content: string }) {
       transition={{ duration: 0.75 }}
       className="mb-2 text-neutral-500"
     >
-      {contentRendered}
+      {contentRendered.map((contentToRender, i) => (
+        <span key={i}>{contentToRender}</span>
+      ))}
     </motion.span>
   )
 }

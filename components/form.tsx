@@ -86,7 +86,7 @@ export function Form({ onChange, onSubmit, value }: Props) {
             duration: 0.4,
             ease: 'easeInOut',
           }}
-          className="absolute top-2 blur-md bg-[#47a8ff] w-full h-10 animate-pulse pointer-events-none -z-10 transition-all duration-500 ease-out rounded-full"
+          className="absolute top-2 blur-md bg-primary w-full h-10 animate-pulse pointer-events-none -z-10 transition-all duration-500 ease-out rounded-full"
         />
 
         <input
