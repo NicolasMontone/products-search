@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useState, ReactNode, useCallback, useEffect } from 'react'
+import { useCallback, useMemo } from 'react'
 import { ProductDTO } from '../lib/client/utils'
 import { LinkPreview } from './link-preview'
 
@@ -9,8 +9,6 @@ type Props = {
 }
 
 export function AssistantText({ content, products }: Props) {
-  const [contentRendered, setContentRendered] = useState<ReactNode[]>([])
-
   const convertToRenderText = useCallback(
     (text: string) => {
       const textSplitted = text.split('^^')
@@ -47,14 +45,15 @@ export function AssistantText({ content, products }: Props) {
         }
       }
 
-      setContentRendered(elementsToRender)
+      return elementsToRender
     },
     [products]
   )
 
-  useEffect(() => {
-    convertToRenderText(content)
-  }, [content, convertToRenderText])
+  const contentRendered = useMemo(
+    () => convertToRenderText(content),
+    [content, convertToRenderText]
+  )
 
   return (
     <motion.span
