@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       
       The response should have the following format:
       
-      [[productId]](ProductName): Why you think this product is the best for the user
+      ^^_productId:ProductName^^ Why you think this product is the best for the user
       `,
     toolChoice: 'auto',
     tools: {
