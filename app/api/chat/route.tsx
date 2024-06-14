@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       
       The response should not contain specials characters like **, etc, just plain text.
       
-      The response should have the following format:
+      The response should always have the following format:
       
       ^^_productId:ProductName^^ Why you think this product is the best for the user
       `,
