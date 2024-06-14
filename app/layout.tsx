@@ -7,6 +7,29 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Products Search',
   description: 'Search for products with the power of AI',
+  twitter: {
+    site: 'nicolasmontone.com',
+    card: 'summary_large_image',
+    creator: '@MontoneNico',
+    description: 'Search for products with the power of AI',
+    creatorId: '@MontoneNico',
+    images: [
+      {
+        url: 'https://monto-products-search.vercel.app/og-image.png',
+        alt: 'Products Search',
+        width: 800,
+        height: 600,
+      },
+      {
+        url: 'https://monto-products-search.vercel.app/og-image.png',
+        alt: 'Products Search',
+        width: 1200,
+        height: 630,
+      },
+    ],
+    title: 'Products Search',
+  },
+  
   openGraph: {
     title: 'Products Search',
     description: 'Search for products with the power of AI',
@@ -19,7 +42,14 @@ export const metadata: Metadata = {
         width: 800,
         height: 600,
       },
+      {
+        url: 'https://monto-products-search.vercel.app/og-image.png',
+        alt: 'Products Search',
+        width: 1200,
+        height: 630,
+      },
     ],
+
     locale: 'en_US',
     type: 'website',
   },
